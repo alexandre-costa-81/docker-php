@@ -12,6 +12,7 @@ ARG PGID=1000
 ENV PUID ${PUID}
 ENV PGID ${PGID}
 
+RUN printf "deb http://archive.debian.org/debian/ jessie main\ndeb-src http://archive.debian.org/debian/ jessie main\ndeb http://security.debian.org jessie/updates main\ndeb-src http://security.debian.org jessie/updates main" > /etc/apt/sources.list
 RUN groupadd -g ${PGID} cobalto && \
     useradd -u ${PUID} -g cobalto -m cobalto && \
     apt-get update -yqq
