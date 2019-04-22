@@ -17,11 +17,20 @@ RUN groupadd -g ${PGID} cobalto && \
     useradd -u ${PUID} -g cobalto -m cobalto && \
     apt-get update -yqq
 
+#####################################
+# Root User:
+#####################################
+
 USER root
 
 # Copia o arquivo php.ini
 COPY config/php.ini /usr/local/etc/php/
+
+# Copia o arquivo sites-available-defail.conf
 COPY config/sites-available-default.conf /etc/apache2/sites-available/
+
+# Copia o arquivo raleway.zip
+COPY config/raleway.zip /tmp/
 
 # Install gd
 RUN apt-get update && apt-get install -y \
@@ -29,10 +38,9 @@ RUN apt-get update && apt-get install -y \
         libjpeg62-turbo-dev \
         libpng12-dev \
         openjdk-7-jre \
-#        php5-sybase \
-#        php5-odbc \
         freetds-dev \
-	    libicu-dev \
+        libicu-dev \
+        unzip \
     && docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
     && docker-php-ext-install -j$(nproc) gd
 
@@ -44,11 +52,16 @@ RUN docker-php-ext-install pgsql
 RUN docker-php-ext-install pdo_pgsql
 RUN docker-php-ext-install mssql
 
-# Install APCu
-#RUN pecl install apcu
 RUN pecl install mongo
 
 RUN a2enmod rewrite expires headers php5
+
+# Fonte Raleway
+RUN mkdir -p /tmp/raleway && \
+    unzip /tmp/raleway.zip -d raleway/ && \
+    rm -rf /usr/share/fonts/truetype/raleway && \
+    mv /tmp/raleway /usr/share/fonts/truetype/ && \
+    fc-cache -fv
 
 # Expose ports.
 EXPOSE 80
