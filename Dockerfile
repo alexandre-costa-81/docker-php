@@ -32,6 +32,9 @@ COPY config/sites-available-default.conf /etc/apache2/sites-available/
 # Copia a pasta raleway
 COPY config/raleway /usr/share/fonts/truetype/raleway
 
+# Copia o arquivo compilado em java das fontes para pasta ext do java
+COPY config/RelawayMedium.jar /usr/lib/jvm/java-7-openjdk-amd64/jre/lib/ext/
+
 # Install gd
 RUN apt-get update && apt-get install -y \
         libfreetype6-dev \
