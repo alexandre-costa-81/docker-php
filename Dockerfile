@@ -29,8 +29,8 @@ COPY config/php.ini /usr/local/etc/php/
 # Copia o arquivo sites-available-defail.conf
 COPY config/sites-available-default.conf /etc/apache2/sites-available/
 
-# Copia o arquivo raleway.zip
-COPY config/raleway.zip /tmp/
+# Copia a pasta raleway
+COPY config/raleway /usr/share/fonts/truetype/raleway
 
 # Install gd
 RUN apt-get update && apt-get install -y \
@@ -56,12 +56,7 @@ RUN pecl install mongo
 
 RUN a2enmod rewrite expires headers php5
 
-# Fonte Raleway
-RUN mkdir -p /tmp/raleway && \
-    unzip /tmp/raleway.zip -d raleway/ && \
-    rm -rf /usr/share/fonts/truetype/raleway && \
-    mv /tmp/raleway /usr/share/fonts/truetype/ && \
-    fc-cache -fv
+RUN fc-cache -fv
 
 # Expose ports.
 EXPOSE 80
