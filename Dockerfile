@@ -54,6 +54,7 @@ RUN apt-get install -y libpq-dev
 RUN docker-php-ext-install pgsql
 RUN docker-php-ext-install pdo_pgsql
 RUN docker-php-ext-install mssql
+RUN docker-php-ext-install calendar
 RUN pecl install xdebug-2.5.5
 
 RUN pecl install mongo
