@@ -37,24 +37,26 @@ COPY config/RelawayMedium.jar /usr/lib/jvm/java-7-openjdk-amd64/jre/lib/ext/
 
 # Install gd
 RUN apt-get update && apt-get install -y \
+        freetds-dev \
         libfreetype6-dev \
+        libicu-dev \
         libjpeg62-turbo-dev \
         libpng12-dev \
+        libpq-dev \
+        libxml2-dev \
         openjdk-7-jre \
-        freetds-dev \
-        libicu-dev \
         unzip \
     && docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
     && docker-php-ext-install -j$(nproc) gd
 
 RUN cp -s /usr/lib/x86_64-linux-gnu/libsybdb.so /usr/lib/
 
-# Install pgsql
-RUN apt-get install -y libpq-dev
+# Install php-exts
 RUN docker-php-ext-install pgsql
 RUN docker-php-ext-install pdo_pgsql
 RUN docker-php-ext-install mssql
 RUN docker-php-ext-install calendar
+RUN docker-php-ext-install xmlrpc
 RUN pecl install xdebug-2.5.5
 
 RUN pecl install mongo
