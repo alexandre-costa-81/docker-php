@@ -64,6 +64,7 @@ RUN pecl install mongo
 RUN pecl install ssh2
 RUN pecl install apcu-4.0.11
 
+RUN docker-php-ext-enable xdebug
 RUN docker-php-ext-enable mongo
 RUN docker-php-ext-enable ssh2
 RUN docker-php-ext-enable apcu
