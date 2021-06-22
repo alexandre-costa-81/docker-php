@@ -12,7 +12,8 @@ ARG PGID=1000
 ENV PUID ${PUID}
 ENV PGID ${PGID}
 
-RUN printf "deb http://archive.debian.org/debian/ jessie main\ndeb-src http://archive.debian.org/debian/ jessie main\ndeb http://security.debian.org jessie/updates main\ndeb-src http://security.debian.org jessie/updates main" > /etc/apt/sources.list
+# RUN printf "deb http://archive.debian.org/debian/ jessie main\ndeb-src http://archive.debian.org/debian/ jessie main\ndeb http://security.debian.org jessie/updates main\ndeb-src http://security.debian.org jessie/updates main" > /etc/apt/sources.list
+RUN printf "deb http://deb.debian.org/debian jessie main contrib non-free\ndeb-src http://deb.debian.org/debian jessie main contrib non-free\ndeb http://deb.debian.org/debian-security/ jessie/updates main contrib non-free\ndeb-src http://deb.debian.org/debian-security/ jessie/updates main contrib non-free\ndeb http://deb.debian.org/debian jessie-updates main contrib non-free\ndeb-src http://deb.debian.org/debian jessie-updates main contrib non-free" > /etc/apt/sources.list
 RUN groupadd -g ${PGID} cobalto && \
     useradd -u ${PUID} -g cobalto -m cobalto && \
     apt-get update -yqq
@@ -34,6 +35,7 @@ COPY config/raleway /usr/share/fonts/truetype/raleway
 
 # Copia o arquivo compilado em java das fontes para pasta ext do java
 COPY config/RelawayMedium.jar /usr/lib/jvm/java-7-openjdk-amd64/jre/lib/ext/
+COPY config/work-sans-extension.jar /usr/lib/jvm/java-7-openjdk-amd64/jre/lib/ext/
 
 # Install gd
 RUN apt-get update && apt-get install -y \
