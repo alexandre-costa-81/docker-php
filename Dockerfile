@@ -50,6 +50,7 @@ RUN apt-get update && apt-get install -y \
         unzip \
         libssh2-1-dev \
         libssh2-1 \
+        libxml2-dev \
     && docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
     && docker-php-ext-install -j$(nproc) gd
 
@@ -61,6 +62,7 @@ RUN docker-php-ext-install pdo_pgsql
 RUN docker-php-ext-install mssql
 RUN docker-php-ext-install calendar
 RUN docker-php-ext-install xmlrpc
+RUN docker-php-ext-install soap
 RUN pecl install xdebug-2.5.5
 RUN pecl install mongo
 RUN pecl install ssh2
